@@ -173,7 +173,7 @@ if st.button("⚡ Analyze Snapshot (Left → Right)"):
                 cv2.putText(result_img, color, (x-40, y-60),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
-        
+        # Side-by-side display
         left_col, right_col = st.columns(2)
 
         with left_col:
@@ -190,7 +190,7 @@ if st.button("⚡ Analyze Snapshot (Left → Right)"):
             plt.savefig(pie_path)
             st.pyplot(fig)
 
-        
+        # Report
         st.subheader("Report Summary")
         st.write("Target Order:", ", ".join(st.session_state.current_order))
         st.write("Detected Order:", ", ".join(detected_order))

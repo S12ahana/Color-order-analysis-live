@@ -95,6 +95,7 @@ if st.button("🔀 Shuffle Colors"):
 st.subheader("Target Color Order")
 st.write(", ".join(st.session_state.current_order))
 
+# ---------------- WEBRTC CAMERA ----------------
 webrtc_ctx = webrtc_streamer(
     key="live",
     mode=WebRtcMode.SENDRECV,
@@ -111,7 +112,7 @@ with col1:
             f = webrtc_ctx.video_processor.frame
             if f is not None:
                 st.session_state.bg_frame = f
-                webrtc_ctx.video_processor.bg_saved = True 
+                webrtc_ctx.video_processor.bg_saved = True  # ✅ tell processor
                 st.success("✅ Background saved. Motion tracking enabled.")
 
 with col2:
@@ -125,7 +126,7 @@ with col2:
 
 st.markdown("---")
 
-
+# ---------------- ANALYSIS ----------------
 if st.button("⚡ Analyze Snapshot (Left → Right)"):
 
     bg = st.session_state.get("bg_frame")
@@ -134,7 +135,7 @@ if st.button("⚡ Analyze Snapshot (Left → Right)"):
     if bg is None or frame is None:
         st.error("❌ Save background and snapshot first.")
     else:
-      
+        # Background subtraction
         diff = cv2.absdiff(bg, frame)
         gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
         _, mask = cv2.threshold(gray, 40, 255, cv2.THRESH_BINARY)
@@ -173,7 +174,7 @@ if st.button("⚡ Analyze Snapshot (Left → Right)"):
                 cv2.putText(result_img, color, (x-40, y-60),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
-        
+        # Side-by-side display
         left_col, right_col = st.columns(2)
 
         with left_col:
@@ -190,7 +191,7 @@ if st.button("⚡ Analyze Snapshot (Left → Right)"):
             plt.savefig(pie_path)
             st.pyplot(fig)
 
-        
+        # Report
         st.subheader("Report Summary")
         st.write("Target Order:", ", ".join(st.session_state.current_order))
         st.write("Detected Order:", ", ".join(detected_order))

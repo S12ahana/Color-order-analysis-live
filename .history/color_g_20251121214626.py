@@ -190,7 +190,7 @@ if st.button("⚡ Analyze Snapshot (Left → Right)"):
             plt.savefig(pie_path)
             st.pyplot(fig)
 
-        
+        # Report
         st.subheader("Report Summary")
         st.write("Target Order:", ", ".join(st.session_state.current_order))
         st.write("Detected Order:", ", ".join(detected_order))
